@@ -181,6 +181,28 @@ public class BinarySearchTree {
 		}
 	}
 	
+	
+	 public boolean checkBST(Node root) {
+         return isBSTUtil(root, Integer.MIN_VALUE,
+                             Integer.MAX_VALUE);
+   }
+
+   public boolean isBSTUtil(Node node, int min, int max)
+  {
+      /* an empty tree is BST */
+      if (node == null)
+          return true;
+
+   /* false if this node violates the min/max constraints */
+      if (node.getData() < min || node.getData() > max)
+          return false;
+       
+      return (isBSTUtil(node.getLeftNode(), min, node.getData()-1) &&
+              isBSTUtil(node.getRightNode(), node.getData()+1, max));
+  }
+	
+	
+	
 	/*
 	 * Print all paths from root to leaf
 	 */
