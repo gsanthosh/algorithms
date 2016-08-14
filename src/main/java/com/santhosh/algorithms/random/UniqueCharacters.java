@@ -1,4 +1,4 @@
-package com.santhosh.algorthms.binarytree;
+package com.santhosh.algorithms.random;
 
 import java.util.Scanner;
 
@@ -10,6 +10,9 @@ public class UniqueCharacters {
 		this.uniqueCharacterArray = uniqueCharacterArray;
 	}
 
+	/*
+	 * Use AScii array count for better soln 
+	 */
 	public boolean isUniqueCharacterInsertionSort() {
 		int length = uniqueCharacterArray.length;
 		if (length == 1) {
