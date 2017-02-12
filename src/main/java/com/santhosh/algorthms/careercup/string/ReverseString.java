@@ -28,11 +28,26 @@ public class ReverseString {
 			originalCharArray[i]=tmp;
 		}
 		
-		System.out.println(originalCharArray.length);
+		//System.out.println(originalCharArray.length);
 		for(int i=0;i<originalCharArray.length;i++)
 		{
 			System.out.print(originalCharArray[i]);
 		}
+	}
+	
+	public String getReversedString()
+	{
+		int strLength=originalCharArray.length;
+		
+		for(int i=0,j=strLength-1;i<j;i++,j--)
+		{
+			char tmp=originalCharArray[j];
+			originalCharArray[j]=originalCharArray[i];
+			originalCharArray[i]=tmp;
+		}
+		
+		
+		return new String(originalCharArray);
 	}
 	/**
 	 * @param args
