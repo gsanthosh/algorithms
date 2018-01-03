@@ -86,6 +86,55 @@ public class LinkedList {
 			iPointer = iPointer.next;
 		}
 	}
+	
+	public LinkedList alternateSplit() {
+		LinkedList secondList = new LinkedList();
+		if (this.getHead() == null || this.getHead().getNext() == null) {
+			return new LinkedList();
+		}
+		Node firstListPointer=head;
+		
+		
+		while(firstListPointer!=null)
+		{
+			Node secondListPointer=firstListPointer.next;
+			if(secondListPointer!=null) {
+				secondList.insertData(secondListPointer.getData());
+				firstListPointer.next=firstListPointer.next.next;
+				firstListPointer=firstListPointer.next;
+			} else {
+				break;
+			}
+			
+		}
+		
+		return secondList;
+	}
+	
+	public LinkedList mergeList(LinkedList listOne,LinkedList listTwo) {
+		LinkedList merged=new LinkedList();
+		Node headOne=listOne.getHead();
+		Node headTwo=listTwo.getHead();		
+		while(headOne!=null && headTwo!=null) {
+			if(headOne.data <= headTwo.data) {
+				merged.insertData(headOne.data);
+				headOne=headOne.next;
+			}
+			else {
+				merged.insertData(headTwo.data);
+				headTwo=headTwo.next;
+			}
+		}
+		while(headOne!=null) {
+			merged.insertData(headOne.data);
+			headOne=headOne.next;
+		}
+		while(headTwo!=null) {
+			merged.insertData(headTwo.data);
+			headTwo=headTwo.next;
+		}
+		return merged;
+	}
 
 	public LinkedList splitList() {
 		LinkedList secondList = new LinkedList();
@@ -112,6 +161,20 @@ public class LinkedList {
 
 		return secondList;
 
+	}
+	
+	public LinkedList mergeSort(LinkedList list) {
+		if(list==null || list.getHead()==null) {
+			return null;
+		}
+		if(list.getHead().getNext()==null) {
+			return list;
+		}
+		LinkedList listTwo=list.splitList();
+		LinkedList one=mergeSort(list);
+		LinkedList two=mergeSort(listTwo);
+		return mergeList(one, two);
+		
 	}
 
 	class Node {
@@ -146,20 +209,24 @@ public class LinkedList {
 	public static void main(String[] args) {
 		LinkedList list = new LinkedList();
 		list.insertData(1);
-		list.insertData(1);
-		list.insertData(1);
 		list.insertData(2);
+		list.insertData(20);
+		list.insertData(1);
+		list.insertData(231);
 		list.insertData(2);
-		list.insertData(3);
+		list.insertData(12);
 		list.insertData(4);
+		list.insertData(31);
 		list.insertData(5);
-		list.insertData(6);
-		list.insertData(6);
-		//list.insertData(4);
-		//list.insertData(5);
-		list.removeDupicates();
+		//list.removeDupicates();
+		//LinkedList secondList=list.alternateSplit();
 		list.printList();
-
+		//secondList.printList();
+		//list.printList();
+		//LinkedList mergedList =list.mergeList(list, secondList);
+		//mergedList.printList();
+		list=list.mergeSort(list);
+		list.printList();
 	}
 
 }
