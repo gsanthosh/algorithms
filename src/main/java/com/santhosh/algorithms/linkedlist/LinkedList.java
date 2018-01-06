@@ -62,6 +62,45 @@ public class LinkedList {
 			}
 		}
 	}
+	
+	public int getNodePostion(int key) {
+		int position=0;
+		if(head==null) {
+			return -1;
+		}
+		Node currentPointer=head;
+		while(currentPointer!=null && currentPointer.data!=key) {
+			++position;
+			currentPointer=currentPointer.next;
+		}
+		if(currentPointer==null) {
+			return -1;
+		}
+		return position;
+	}
+	
+	
+	public Node removeNode(int pos) {
+		Node returnNode=null;
+		if(pos==0) {
+			returnNode=head;
+			head=head.next;
+			return returnNode;
+		}
+		int currentPos=0;
+		Node currentNode=head;
+		while(currentNode!=null && currentPos!=(pos-1) ) {
+			++currentPos;
+			currentNode=currentNode.next;
+		}
+		if(currentNode==null) {
+			return null;
+		}
+		returnNode=currentNode.next;
+		currentNode.next=currentNode.next.next;
+		return returnNode;
+	}
+	
 
 	public void sort() {
 		if (head == null || head.next == null) {
@@ -135,6 +174,45 @@ public class LinkedList {
 		}
 		return merged;
 	}
+	
+	public boolean palindromeCheck() {
+		java.util.LinkedList<Integer> stack= new java.util.LinkedList<>();
+		//check null for head
+		if (this.getHead() == null || this.getHead().getNext() == null) {
+			return false;
+		}
+		
+		Node slowPointer = head;
+		Node fastPointer = head;
+		
+
+		while (fastPointer!=null && fastPointer.getNext() != null) {
+			stack.add(slowPointer.getData());
+			slowPointer = slowPointer.next;
+			fastPointer = fastPointer.next.next;	
+			
+		}
+		//oddList
+		if(fastPointer!=null && fastPointer.next==null) {
+			//remove middle element
+			slowPointer=slowPointer.next;
+		} 
+		
+	
+		
+		while(slowPointer!=null && !stack.isEmpty()) {			
+			if(stack.removeLast()!=slowPointer.data) {
+				return false;
+			}
+			slowPointer=slowPointer.next;
+		}
+		
+		if(slowPointer!=null || !stack.isEmpty()) {
+			return false;
+		}
+		
+		return true;
+	}
 
 	public LinkedList splitList() {
 		LinkedList secondList = new LinkedList();
@@ -176,7 +254,90 @@ public class LinkedList {
 		return mergeList(one, two);
 		
 	}
+	
+	public void insertNode(int pos,Node node) {
+		if(pos==0) {
+			node.next=head;
+			head=node;
+		}
+		int currentPos=0;
+		Node currentNode=head;
+		while(currentNode!=null && currentPos!=(pos-1)) {
+			++currentPos;
+			currentNode=currentNode.next;
+		}
+		if(currentNode==null) {
+			return;
+		}
+		if(currentNode.next==null) {
+			currentNode.next=node;
+			node.next=null;
+			return;
+		}
+		
+		node.next=currentNode.next;
+		currentNode.next=node;
+	}
+	
+	public void swapNode(int key1,int key2) {
+		int pos1=getNodePostion(key1);
+		int pos2=getNodePostion(key2);
+		if(pos1==-1 ||pos2==-1) {
+			System.out.println("Nodes can't be swapped");
+			return;
+		}
+		
+		
+		
+		if(pos1>pos2) {
+			Node pos1Node=removeNode(pos1);
+			Node pos2Node=removeNode(pos2);
+			printList();
+			insertNode(pos2,pos1Node);
+			printList();
+			insertNode(pos1,pos2Node);
+		} else {
+			Node pos2Node=removeNode(pos2);
+			Node pos1Node=removeNode(pos1);
+			
+			printList();
+			insertNode(pos1,pos2Node);
+			printList();
+			insertNode(pos2,pos1Node);
+		}
+		
+	}
 
+	public void reverseList() {
+		if(head==null || head.next==null) {
+			return;
+		}
+		
+		Node oldHead=null;				
+
+		while(head!=null) {
+			Node next=head.next;
+			head.next=oldHead;
+			oldHead=head;
+			head=next;	
+		}
+		head=oldHead;
+	}
+	
+	public boolean detectLoop() {
+		
+		Node slowPointer=head;
+		Node fastPointer=head.next;
+		while(slowPointer!=null && fastPointer!=null) {
+			if(slowPointer==fastPointer) {
+				return true;
+			}
+			slowPointer=slowPointer.next;
+			fastPointer=fastPointer.next.next;
+		}
+		return false;
+	}
+	
 	class Node {
 		int data;
 		Node next;
@@ -208,25 +369,50 @@ public class LinkedList {
 
 	public static void main(String[] args) {
 		LinkedList list = new LinkedList();
+		list.insertData(0);
 		list.insertData(1);
-		list.insertData(2);
-		list.insertData(20);
 		list.insertData(1);
-		list.insertData(231);
-		list.insertData(2);
-		list.insertData(12);
-		list.insertData(4);
-		list.insertData(31);
-		list.insertData(5);
+		list.insertData(0);
+		//list.insertData(0);
+		//list.insertData(0);
+		//list.insertData(0);
+		//list.insertData(1);
+		//list.insertData(2);
+		//list.insertData(3);
+		//list.insertData(4);
+		//list.insertData(5);
+		//list.insertData(20);
+		//list.insertData(1);
+		//list.insertData(231);
+		//list.insertData(2);
+		//list.insertData(12);
+		//list.insertData(4);
+		//list.insertData(31);
+		//list.insertData(5);
 		//list.removeDupicates();
 		//LinkedList secondList=list.alternateSplit();
-		list.printList();
+		//list.printList();
 		//secondList.printList();
 		//list.printList();
 		//LinkedList mergedList =list.mergeList(list, secondList);
 		//mergedList.printList();
-		list=list.mergeSort(list);
-		list.printList();
+		//list=list.mergeSort(list);
+		//list.printList();
+		//System.out.println(list.getNodePostion(1));
+		//Node removedNode=list.removeNode(21);
+		//Node node=list.new Node(34,null);
+		//list.printList();
+		//list.insertNode(3, node);
+		//list.swapNode(3, 5);
+		
+		//list.reverseList();
+		//list.printList();
+		
+		//System.out.println(list.detectLoop());
+		//list.insertNode(3, list.getHead());
+		//System.out.println(list.detectLoop());
+		//list.printList();
+		System.out.println(list.palindromeCheck());
 	}
 
 }
