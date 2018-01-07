@@ -101,6 +101,59 @@ public class LinkedList {
 		return returnNode;
 	}
 	
+	public void reverseList(int n) {
+		Node beginList=head;
+		Node endList=head;
+		Node prev=null;
+		while(endList!=null) {
+			int count=0;
+			while(count<n && endList!=null) {
+				endList=endList.next;
+				++count;
+			}
+			if(endList!=null) {
+				
+				Node reversedHead=reverseSubList(beginList,endList,endList);
+				if(beginList==head) {
+					head=reversedHead;
+				}
+				else {
+					prev.next=reversedHead;
+				}
+				
+				prev=beginList;
+				beginList=endList;
+				printList();
+				
+			} 
+			if(endList==null && beginList!=null) {
+				Node reversedHead=reverseSubList(beginList,null,null);
+				if(prev!=null) {
+					prev.next=reversedHead;
+					}
+				else {
+					head=reversedHead;
+				}
+			}
+			
+		}
+	}
+	
+	
+
+	public Node reverseSubList(Node beginList, Node nextNode, Node prev) {
+		if(beginList==null|| beginList.getNext()==nextNode) {
+			if(beginList!=null) {
+				beginList.next=prev;
+			}
+			return beginList;
+		}
+		Node tmp=beginList;
+		beginList=beginList.next;
+		tmp.next=prev;
+		prev=tmp;
+		return reverseSubList(beginList,nextNode,prev);
+	}
 
 	public void sort() {
 		if (head == null || head.next == null) {
@@ -228,7 +281,6 @@ public class LinkedList {
 		}
 		// even
 		if (fastPointer.getNext() == null) {
-
 			secondList.setHead(slowPointer.next);
 			slowPointer.next = null;
 			return secondList;
@@ -324,6 +376,19 @@ public class LinkedList {
 		head=oldHead;
 	}
 	
+	public void reverseList(Node restNode) {
+		if(head==null|| head.getNext()==null) {
+			if(head!=null) {
+				head.next=restNode;
+			}
+			return;
+		}
+		Node tmp=head;
+		head=head.next;
+		tmp.next=restNode;
+		reverseList(tmp);
+	}
+	
 	public boolean detectLoop() {
 		
 		Node slowPointer=head;
@@ -371,48 +436,17 @@ public class LinkedList {
 		LinkedList list = new LinkedList();
 		list.insertData(0);
 		list.insertData(1);
-		list.insertData(1);
-		list.insertData(0);
-		//list.insertData(0);
-		//list.insertData(0);
-		//list.insertData(0);
-		//list.insertData(1);
-		//list.insertData(2);
-		//list.insertData(3);
-		//list.insertData(4);
-		//list.insertData(5);
-		//list.insertData(20);
-		//list.insertData(1);
-		//list.insertData(231);
-		//list.insertData(2);
-		//list.insertData(12);
-		//list.insertData(4);
-		//list.insertData(31);
-		//list.insertData(5);
-		//list.removeDupicates();
-		//LinkedList secondList=list.alternateSplit();
-		//list.printList();
-		//secondList.printList();
-		//list.printList();
-		//LinkedList mergedList =list.mergeList(list, secondList);
-		//mergedList.printList();
-		//list=list.mergeSort(list);
-		//list.printList();
-		//System.out.println(list.getNodePostion(1));
-		//Node removedNode=list.removeNode(21);
-		//Node node=list.new Node(34,null);
-		//list.printList();
-		//list.insertNode(3, node);
-		//list.swapNode(3, 5);
+		list.insertData(2);
+		list.insertData(3);
+		list.insertData(4);
+		list.insertData(5);
+		list.insertData(6);
+		list.insertData(7);
+		//list.head=list.reverseSubList(list.getHead(), list.getHead().getNext().getNext().getNext().getNext(), list.getHead().getNext().getNext().getNext().getNext());
+	    list.reverseList(8);
+		list.printList();
 		
-		//list.reverseList();
-		//list.printList();
-		
-		//System.out.println(list.detectLoop());
-		//list.insertNode(3, list.getHead());
-		//System.out.println(list.detectLoop());
-		//list.printList();
-		System.out.println(list.palindromeCheck());
+	
 	}
 
 }
